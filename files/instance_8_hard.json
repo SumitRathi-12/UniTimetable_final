@@ -1,0 +1,536 @@
+{
+  "courses": [
+    {
+      "id": "C1",
+      "lecturer": "Dr. D",
+      "students": [
+        14,
+        18,
+        22,
+        27,
+        8,
+        6,
+        9,
+        2,
+        23,
+        17,
+        24,
+        26,
+        5,
+        25,
+        10,
+        29,
+        12,
+        32,
+        15,
+        37,
+        11,
+        30,
+        26,
+        39
+      ],
+      "preferred_rooms": [
+        "R4",
+        "R2"
+      ]
+    },
+    {
+      "id": "C2",
+      "lecturer": "Dr. C",
+      "students": [
+        1,
+        4,
+        7,
+        3,
+        13,
+        16,
+        19,
+        20,
+        21,
+        28,
+        31,
+        33,
+        34,
+        35,
+        36,
+        38
+      ],
+      "preferred_rooms": [
+        "R3"
+      ]
+    },
+    {
+      "id": "C3",
+      "lecturer": "Dr. D",
+      "students": [
+        40,
+        2,
+        17,
+        13,
+        18,
+        4,
+        1,
+        6,
+        29,
+        25,
+        3,
+        21
+      ],
+      "preferred_rooms": [
+        "R1"
+      ]
+    },
+    {
+      "id": "C4",
+      "lecturer": "Dr. E",
+      "students": [
+        12,
+        19,
+        23,
+        5,
+        27,
+        7,
+        3,
+        28
+      ],
+      "preferred_rooms": [
+        "R3"
+      ]
+    },
+    {
+      "id": "C5",
+      "lecturer": "Dr. E",
+      "students": [
+        6,
+        23,
+        2,
+        24,
+        25,
+        20,
+        13,
+        30,
+        12,
+        8,
+        17
+      ],
+      "preferred_rooms": [
+        "R3"
+      ]
+    },
+    {
+      "id": "C6",
+      "lecturer": "Dr. C",
+      "students": [
+        8,
+        29,
+        7,
+        21,
+        2,
+        27,
+        6,
+        10,
+        3,
+        19,
+        16,
+        26,
+        5,
+        30
+      ],
+      "preferred_rooms": [
+        "R5"
+      ]
+    },
+    {
+      "id": "C7",
+      "lecturer": "Dr. E",
+      "students": [
+        16,
+        1,
+        30,
+        20,
+        22,
+        25,
+        15,
+        21,
+        12,
+        5,
+        11,
+        3,
+        4,
+        7
+      ],
+      "preferred_rooms": [
+        "R3"
+      ]
+    },
+    {
+      "id": "C8",
+      "lecturer": "Dr. E",
+      "students": [
+        26,
+        1,
+        28,
+        19,
+        3,
+        22,
+        16
+      ],
+      "preferred_rooms": [
+        "R3"
+      ]
+    },
+    {
+      "id": "C9",
+      "lecturer": "Dr. C",
+      "students": [
+        22,
+        21,
+        30,
+        4,
+        29,
+        26
+      ],
+      "preferred_rooms": [
+        "R4",
+        "R5"
+      ]
+    },
+    {
+      "id": "C10",
+      "lecturer": "Dr. C",
+      "students": [
+        27,
+        16,
+        29,
+        23,
+        5,
+        22,
+        25,
+        20,
+        14,
+        24,
+        18,
+        11,
+        21,
+        9,
+        12
+      ],
+      "preferred_rooms": [
+        "R5",
+        "R1"
+      ]
+    }
+  ],
+  "rooms": [
+    {
+      "id": "R1",
+      "capacity": 30
+    },
+    {
+      "id": "R2",
+      "capacity": 35
+    },
+    {
+      "id": "R3",
+      "capacity": 25
+    },
+    {
+      "id": "R4",
+      "capacity": 30
+    },
+    {
+      "id": "R5",
+      "capacity": 35
+    }
+  ],
+  "time_slots": [
+    "Mon 9AM",
+    "Mon 10AM",
+    "Mon 11AM",
+    "Mon 1PM",
+    "Mon 2PM",
+    "Tue 9AM",
+    "Tue 10AM",
+    "Tue 11AM",
+    "Tue 1PM",
+    "Tue 2PM",
+    "Wed 9AM",
+    "Wed 10AM",
+    "Wed 11AM",
+    "Wed 1PM",
+    "Wed 2PM",
+    "Thu 9AM",
+    "Thu 10AM",
+    "Thu 11AM",
+    "Thu 1PM",
+    "Thu 2PM",
+    "Fri 9AM",
+    "Fri 10AM",
+    "Fri 11AM",
+    "Fri 1PM",
+    "Fri 2PM"
+  ],
+  "lecturer_availability": {
+    "Dr. A": [
+      "Mon 11AM",
+      "Wed 10AM",
+      "Mon 10AM",
+      "Fri 2PM",
+      "Tue 10AM",
+      "Tue 11AM",
+      "Fri 11AM",
+      "Thu 2PM",
+      "Tue 1PM",
+      "Mon 2PM",
+      "Thu 11AM",
+      "Mon 9AM",
+      "Wed 1PM",
+      "Thu 9AM",
+      "Fri 10AM"
+    ],
+    "Dr. B": [
+      "Wed 1PM",
+      "Tue 2PM",
+      "Fri 10AM",
+      "Mon 10AM",
+      "Tue 11AM",
+      "Thu 2PM",
+      "Fri 1PM",
+      "Fri 9AM",
+      "Mon 11AM",
+      "Wed 2PM",
+      "Wed 10AM",
+      "Tue 10AM",
+      "Mon 2PM",
+      "Thu 9AM",
+      "Fri 2PM"
+    ],
+    "Dr. C": [
+      "Thu 10AM",
+      "Thu 2PM",
+      "Fri 11AM",
+      "Fri 9AM",
+      "Tue 10AM",
+      "Wed 11AM",
+      "Thu 11AM",
+      "Wed 2PM",
+      "Mon 10AM",
+      "Thu 9AM",
+      "Fri 2PM",
+      "Fri 10AM",
+      "Thu 1PM",
+      "Tue 11AM",
+      "Tue 2PM"
+    ],
+    "Dr. D": [
+      "Wed 10AM",
+      "Tue 9AM",
+      "Mon 2PM",
+      "Wed 9AM",
+      "Mon 1PM",
+      "Wed 11AM",
+      "Mon 9AM",
+      "Fri 11AM",
+      "Tue 10AM",
+      "Fri 10AM",
+      "Fri 1PM",
+      "Mon 10AM",
+      "Fri 2PM",
+      "Wed 2PM",
+      "Tue 1PM"
+    ],
+    "Dr. E": [
+      "Mon 9AM",
+      "Thu 1PM",
+      "Tue 10AM",
+      "Tue 9AM",
+      "Mon 1PM",
+      "Wed 9AM",
+      "Thu 2PM",
+      "Mon 2PM",
+      "Tue 2PM",
+      "Fri 1PM",
+      "Fri 2PM",
+      "Wed 11AM",
+      "Thu 11AM",
+      "Wed 1PM",
+      "Thu 9AM"
+    ]
+  },
+  "student_enrollments": {
+    "1": [
+      "C3",
+      "C7",
+      "C8"
+    ],
+    "2": [
+      "C1",
+      "C3",
+      "C5",
+      "C6"
+    ],
+    "3": [
+      "C3",
+      "C4",
+      "C6",
+      "C7",
+      "C8"
+    ],
+    "4": [
+      "C3",
+      "C7",
+      "C9"
+    ],
+    "5": [
+      "C1",
+      "C2",
+      "C4",
+      "C6",
+      "C7",
+      "C10"
+    ],
+    "6": [
+      "C1",
+      "C3",
+      "C5",
+      "C6"
+    ],
+    "7": [
+      "C4",
+      "C6",
+      "C7"
+    ],
+    "8": [
+      "C1",
+      "C5",
+      "C6"
+    ],
+    "9": [
+      "C1",
+      "C10"
+    ],
+    "10": [
+      "C6"
+    ],
+    "11": [
+      "C2",
+      "C7",
+      "C10"
+    ],
+    "12": [
+      "C2",
+      "C4",
+      "C5",
+      "C7",
+      "C10"
+    ],
+    "13": [
+      "C3",
+      "C5"
+    ],
+    "14": [
+      "C1",
+      "C10"
+    ],
+    "15": [
+      "C7"
+    ],
+    "16": [
+      "C6",
+      "C7",
+      "C8",
+      "C10"
+    ],
+    "17": [
+      "C1",
+      "C2",
+      "C3",
+      "C5"
+    ],
+    "18": [
+      "C1",
+      "C3",
+      "C10"
+    ],
+    "19": [
+      "C2",
+      "C4",
+      "C6",
+      "C8"
+    ],
+    "20": [
+      "C2",
+      "C5",
+      "C7",
+      "C10"
+    ],
+    "21": [
+      "C2",
+      "C3",
+      "C6",
+      "C7",
+      "C9",
+      "C10"
+    ],
+    "22": [
+      "C1",
+      "C7",
+      "C8",
+      "C9",
+      "C10"
+    ],
+    "23": [
+      "C1",
+      "C2",
+      "C4",
+      "C5",
+      "C10"
+    ],
+    "24": [
+      "C1",
+      "C2",
+      "C5",
+      "C10"
+    ],
+    "25": [
+      "C2",
+      "C3",
+      "C5",
+      "C7",
+      "C10"
+    ],
+    "26": [
+      "C1",
+      "C2",
+      "C6",
+      "C8",
+      "C9"
+    ],
+    "27": [
+      "C1",
+      "C4",
+      "C6",
+      "C10"
+    ],
+    "28": [
+      "C2",
+      "C4",
+      "C8"
+    ],
+    "29": [
+      "C2",
+      "C3",
+      "C4",
+      "C6",
+      "C9",
+      "C10"
+    ],
+    "30": [
+      "C3",
+      "C5",
+      "C6",
+      "C7",
+      "C9"
+    ]
+  }
+}
