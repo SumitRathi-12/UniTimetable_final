@@ -1,66 +1,71 @@
 import time
 import json
 import csv
+import itertools
 from timetable_parser import TimetableData
-from genetic_algorithm import genetic_algorithm, generate_dtr_codes, convert_solution
+from genetic_algorithm import genetic_algorithm, generate_dtr_codes
+from fitnessfunction import evaluate_fitness
 
-# Define experiment configurations
+# Define instances
 instances = {
     "easy": "files/instance_1_easy.json",
-    "medium": "files/instance_5_easy.json",
+    "medium": "files/instance_5_moderate.json",
     "hard": "files/instance_10_hard.json"
 }
 
-# Example parameter sets for tuning
-parameter_sets = [
-    {"generations": 50, "pop_size": 30},
-    {"generations": 100, "pop_size": 30},
-    {"generations": 100, "pop_size": 50},
-    {"generations": 150, "pop_size": 50},
-    {"generations": 200, "pop_size": 60}
-]
+# Define parameter sets from your provided table
+population_sizes = [30, 50, 100]
+mutation_rates = [0.01, 0.05, 0.10]
+generations_list = [50, 100, 200]
+crossover_operators = ['uniform', 'ox', 'pmx']
+
+# Prepare combinations of parameters
+parameter_combinations = list(itertools.product(population_sizes, mutation_rates, generations_list, crossover_operators))
 
 # Store results
-results = [("Instance", "Run", "Generations", "Pop Size", "Best Fitness", "Time (s)")]
+results = [("Instance", "Pop Size", "Mutation Rate", "Generations", "Crossover Operator", "Best Fitness", "Time (s)")]
 
+# Experiment
 for instance_name, instance_path in instances.items():
     with open(instance_path) as f:
         data = json.load(f)
 
     timetable = TimetableData(data)
 
-    for run_id, params in enumerate(parameter_sets, start=1):
-        print(f"\n🔁 Running {instance_name} - Run {run_id} with {params}")
+    for params in parameter_combinations:
+        pop_size, mutation_rate, generations, crossover_op = params
+
+        print(f"\n🔁 Instance: {instance_name}, PopSize: {pop_size}, Mutation: {mutation_rate}, Generations: {generations}, Crossover: {crossover_op}")
+
         start_time = time.time()
 
         best_solution = genetic_algorithm(
             timetable,
-            generations=params["generations"],
-            pop_size=params["pop_size"]
+            generations=generations,
+            pop_size=pop_size,
+            mutation_rate=mutation_rate,
+            crossover_operator=crossover_op
         )
 
         duration = time.time() - start_time
 
         # Evaluate best fitness
-        from fitnessfunction import evaluate_fitness
-       # from genetic_algorithm import generate_dtr_codes, convert_solution
-
-        dtr_map, _ = generate_dtr_codes()
         fitness = evaluate_fitness(timetable, best_solution)
 
         # Log result
         results.append((
             instance_name,
-            run_id,
-            params["generations"],
-            params["pop_size"],
+            pop_size,
+            mutation_rate,
+            generations,
+            crossover_op,
             fitness,
             round(duration, 2)
         ))
 
 # Save to CSV
-with open("experiment_results.csv", "w", newline="") as file:
+with open("experiment_full_results.csv", "w", newline="") as file:
     writer = csv.writer(file)
     writer.writerows(results)
 
-print("\n✅ All experiments complete. Results saved to 'experiment_results.csv'.")
+print("\n✅ All experiments complete. Results saved to 'experiment_full_results.csv'.")

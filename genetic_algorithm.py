@@ -163,11 +163,57 @@ def generate_random_individual(courses, dtr_codes):
 def initialize_population(timetable, dtr_codes, size=50):
     return [generate_random_individual(timetable.courses, dtr_codes) for _ in range(size)]
 
-def crossover(parent1, parent2):
-    return {
-        course: random.choice([parent1[course], parent2[course]])
-        for course in parent1
-    }
+def crossover(parent1, parent2, operator="uniform"):
+    if operator == "uniform":
+        return uniform_crossover(parent1, parent2)
+    elif operator == "ox":
+        return order_crossover(parent1, parent2)
+    elif operator == "pmx":
+        return pmx_crossover(parent1, parent2)
+    else:
+        raise ValueError(f"Unknown crossover operator: {operator}")
+
+def uniform_crossover(parent1, parent2):
+    child = {}
+    for key in parent1:
+        child[key] = random.choice([parent1[key], parent2[key]])
+    return child
+
+def order_crossover(parent1, parent2):
+    keys = list(parent1.keys())
+    size = len(keys)
+    start, end = sorted(random.sample(range(size), 2))
+
+    child = {k: None for k in keys}
+
+    # Copy the slice from parent1
+    for i in range(start, end + 1):
+        child[keys[i]] = parent1[keys[i]]
+
+    # Fill remaining from parent2
+    p2_values = [parent2[k] for k in keys if parent2[k] not in child.values()]
+    for k in keys:
+        if child[k] is None:
+            child[k] = p2_values.pop(0)
+    return child
+
+def pmx_crossover(parent1, parent2):
+    keys = list(parent1.keys())
+    size = len(keys)
+    start, end = sorted(random.sample(range(size), 2))
+
+    child = parent1.copy()
+    for i in range(start, end + 1):
+        key = keys[i]
+        val_from_p2 = parent2[key]
+
+        if val_from_p2 not in child.values():
+            for k in keys:
+                if child[k] == val_from_p2:
+                    child[k] = parent2[k]
+                    break
+            child[key] = val_from_p2
+    return child
 
 def mutate(individual, dtr_codes, mutation_rate=0.05):
     new_ind = individual.copy()
@@ -185,7 +231,7 @@ def convert_solution(encoded_solution, dtr_map):
         for course_id, dtr in encoded_solution.items()
     }
 
-def genetic_algorithm(timetable, generations=100, pop_size=50):
+def genetic_algorithm(timetable, generations=100, pop_size=50, mutation_rate=0.01, crossover_operator="uniform"):
     dtr_map, _ = generate_dtr_codes()
     dtr_codes = list(dtr_map.keys())
     population = initialize_population(timetable, dtr_codes, pop_size)
@@ -203,8 +249,8 @@ def genetic_algorithm(timetable, generations=100, pop_size=50):
 
         while len(next_gen) < pop_size:
             parents = random.sample(scored_population[:10], 2)
-            child = crossover(parents[0][0], parents[1][0])
-            child = mutate(child, dtr_codes)
+            child = crossover(parents[0][0], parents[1][0], operator=crossover_operator)
+            child = mutate(child, dtr_codes, mutation_rate=mutation_rate)
             next_gen.append(child)
 
         population = next_gen
@@ -212,6 +258,7 @@ def genetic_algorithm(timetable, generations=100, pop_size=50):
     best_individual = scored_population[0][0]
     best_solution = convert_solution(best_individual, dtr_map)
     return best_solution
+
 
 # === Main Test Runner ===
 if __name__ == "__main__":
@@ -253,4 +300,3 @@ if __name__ == "__main__":
         writer.writerows(rows)
 
     print("\n📁 Student schedules exported to 'student_schedules.csv'")
-
