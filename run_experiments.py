@@ -16,11 +16,13 @@ instances = {
 # Define parameter sets from your provided table
 population_sizes = [30, 50, 100]
 mutation_rates = [0.01, 0.05, 0.10]
-generations_list = [50, 100, 200]
+crossover_rates = [0.6, 0.8, 0.95]
+max_evaluations_list = [10000]
 crossover_operators = ['uniform', 'ox', 'pmx']
 
 # Prepare combinations of parameters
-parameter_combinations = list(itertools.product(population_sizes, mutation_rates, generations_list, crossover_operators))
+parameter_combinations = list(itertools.product(population_sizes, mutation_rates, max_evaluations_list, crossover_operators))
+
 
 # Store results
 results = [("Instance", "Pop Size", "Mutation Rate", "Generations", "Crossover Operator", "Best Fitness", "Time (s)")]
@@ -33,15 +35,15 @@ for instance_name, instance_path in instances.items():
     timetable = TimetableData(data)
 
     for params in parameter_combinations:
-        pop_size, mutation_rate, generations, crossover_op = params
+        pop_size, mutation_rate, max_evaluations, crossover_op = params
 
-        print(f"\n🔁 Instance: {instance_name}, PopSize: {pop_size}, Mutation: {mutation_rate}, Generations: {generations}, Crossover: {crossover_op}")
+        print(f"\n🔁 Instance: {instance_name}, PopSize: {pop_size}, Mutation: {mutation_rate}, MaxEvaluations: {max_evaluations}, Crossover: {crossover_op}")
 
         start_time = time.time()
 
         best_solution = genetic_algorithm(
             timetable,
-            generations=generations,
+            max_evaluations=max_evaluations,
             pop_size=pop_size,
             mutation_rate=mutation_rate,
             crossover_operator=crossover_op
@@ -49,19 +51,19 @@ for instance_name, instance_path in instances.items():
 
         duration = time.time() - start_time
 
-        # Evaluate best fitness
         fitness = evaluate_fitness(timetable, best_solution)
 
-        # Log result
         results.append((
             instance_name,
             pop_size,
             mutation_rate,
-            generations,
+            max_evaluations,
             crossover_op,
             fitness,
             round(duration, 2)
         ))
+
+
 
 # Save to CSV
 with open("experiment_full_results.csv", "w", newline="") as file:
