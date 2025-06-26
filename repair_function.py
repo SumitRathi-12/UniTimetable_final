@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from typing import Dict, Tuple, List, Set, Optional
 
 from timetable_parser import TimetableData, Course, Room
-from genetic_algorithm import genetic_algorithm  # ✅ Importing from your existing module
+from genetic_algorithm import genetic_algorithm  # ✅ Make sure this version only has uniform and single_point crossover
 
 
 def generate_dtr_codes(timetable_data: TimetableData):
@@ -28,7 +28,7 @@ def generate_dtr_codes(timetable_data: TimetableData):
     return dtr_map, reverse_map
 
 
-def repair_individual_advanced(individual, timetable_data, dtr_map, reverse_dtr_map, max_evaluations=10000):
+def repair_individual_advanced(individual, timetable_data, dtr_map, reverse_dtr_map, max_evaluations=5000):
     repaired_individual = individual.copy()
 
     all_rooms = [room.id for room in timetable_data.rooms]
@@ -174,7 +174,6 @@ def repair_individual_advanced(individual, timetable_data, dtr_map, reverse_dtr_
     return repaired_individual
 
 
-
 if __name__ == "__main__":
     with open("files/instance_10_hard.json") as f:
         data = json.load(f)
@@ -184,30 +183,30 @@ if __name__ == "__main__":
 
     print("\n🚀 Running Genetic Algorithm with Repair Function...\n")
 
-    # Run the GA with domain-specific repair enabled
+    # Run the GA with selected crossover operator
     best_solution = genetic_algorithm(
         timetable,
         max_evaluations=10000,
         pop_size=50,
         mutation_rate=0.01,
-        crossover_rate=0.7,  # ✅ Now respected
-        crossover_operator="uniform",  # You can also try "ox" or "pmx"
-        use_repair=True,  # ✅ Signal that repair should be used
+        crossover_rate=0.7,
+        crossover_operator="uniform",  # ✅ Only "uniform" or "single_point" supported
+        use_repair=True,
         dtr_map=dtr_map,
         reverse_dtr_map=reverse_dtr_map,
         repair_fn=repair_individual_advanced
     )
 
-    # Display schedule
+    # Display best schedule
     print("\n✅ Best Schedule:")
     for course_id, assignment in best_solution.items():
         day, time = assignment['time_slot'].split()
         room = assignment['room_id']
         print(f"{course_id}: {day} {time} in {room}")
 
-    # Optionally export as CSV
+    # Export to CSV
     import csv
-    with open("student_schedules.csv", "w", newline="") as file:
+    with open("result_GADK.csv", "w", newline="") as file:
         writer = csv.writer(file)
         writer.writerow(["Student ID", "Day", "Time", "Course ID", "Room"])
         for student_id, enrolled in timetable.student_enrollments.items():
@@ -217,4 +216,5 @@ if __name__ == "__main__":
                     room = best_solution[cid]["room_id"]
                     day, time = ts.split()
                     writer.writerow([student_id, day, time, cid, room])
-    print("\n📄 Exported schedule to 'student_schedules.csv'")
+
+    print("\n📄 Exported schedule to 'result_GADK.csv'")

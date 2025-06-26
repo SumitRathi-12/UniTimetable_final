@@ -35,21 +35,14 @@ def initialize_population(timetable, dtr_codes, size=50):
 def crossover(parent1, parent2, operator="uniform"):
     if operator == "uniform":
         return uniform_crossover(parent1, parent2)
-
-    course_ids = sorted(parent1.keys())
-    p1_list = [parent1[course] for course in course_ids]
-    p2_list = [parent2[course] for course in course_ids]
-
-    if operator == "ox":
-        child_list = order_crossover(p1_list, p2_list)
-    elif operator == "pmx":
-        child_list = pmx_crossover(p1_list, p2_list)
+    elif operator == "single_point":
+        course_ids = sorted(parent1.keys())
+        p1_list = [parent1[course] for course in course_ids]
+        p2_list = [parent2[course] for course in course_ids]
+        child_list = single_point_crossover(p1_list, p2_list)
+        return {course: dtr for course, dtr in zip(course_ids, child_list)}
     else:
         raise ValueError(f"Unknown crossover operator: {operator}")
-
-    # Rebuild dictionary using course_ids
-    child = {course: dtr for course, dtr in zip(course_ids, child_list)}
-    return child
 
 def uniform_crossover(parent1, parent2):
     child = {}
@@ -57,47 +50,13 @@ def uniform_crossover(parent1, parent2):
         child[key] = random.choice([parent1[key], parent2[key]])
     return child
 
-def order_crossover(p1, p2):
-    size = len(p1)
-    start, end = sorted(random.sample(range(size), 2))
+def single_point_crossover(parent1, parent2):
+    """Single-point crossover for list-based chromosomes."""
+    if len(parent1) != len(parent2):
+        raise ValueError("Parents must be the same length.")
 
-    child = [None] * size
-    child[start:end + 1] = p1[start:end + 1]
-
-    p2_idx = (end + 1) % size
-    child_idx = (end + 1) % size
-
-    while None in child:
-        gene = p2[p2_idx]
-        if gene not in child:
-            child[child_idx] = gene
-            child_idx = (child_idx + 1) % size
-        p2_idx = (p2_idx + 1) % size
-
-    return child
-
-def pmx_crossover(p1, p2):
-    size = len(p1)
-    start, end = sorted(random.sample(range(size), 2))
-
-    child = [None] * size
-    child[start:end + 1] = p1[start:end + 1]
-
-    for i in range(start, end + 1):
-        gene = p2[i]
-        if gene not in child:
-            pos = i
-            while True:
-                mapped_gene = p1[pos]
-                pos = p2.index(mapped_gene)
-                if child[pos] is None:
-                    child[pos] = gene
-                    break
-
-    for i in range(size):
-        if child[i] is None:
-            child[i] = p2[i]
-
+    point = random.randint(1, len(parent1) - 1)
+    child = parent1[:point] + parent2[point:]
     return child
 
 def mutate(individual, dtr_codes, mutation_rate=0.05):
@@ -122,8 +81,7 @@ def genetic_algorithm(timetable, max_evaluations=5000, pop_size=50, mutation_rat
                       use_repair=False,
                       dtr_map=None,
                       reverse_dtr_map=None,
-                      repair_fn=None
-                      ):
+                      repair_fn=None):
     dtr_map, _ = generate_dtr_codes()
     dtr_codes = list(dtr_map.keys())
     population = initialize_population(timetable, dtr_codes, pop_size)
@@ -163,7 +121,7 @@ def genetic_algorithm(timetable, max_evaluations=5000, pop_size=50, mutation_rat
 
             next_gen.append(child)
 
-    population = next_gen
+        population = next_gen
 
     best_solution = convert_solution(best_individual, dtr_map)
     return best_solution
@@ -174,7 +132,14 @@ if __name__ == "__main__":
         data = json.load(f)
 
     timetable = TimetableData(data)
-    best_schedule = genetic_algorithm(timetable, max_evaluations=10000, pop_size=50, mutation_rate=0.01, crossover_rate=0.8)
+    best_schedule = genetic_algorithm(
+        timetable,
+        max_evaluations=5000,
+        pop_size=50,
+        mutation_rate=0.01,
+        crossover_rate=0.8,
+        crossover_operator="uniform"  # Change to "single_point" to test single-point crossover
+    )
 
     print("\nStudent schedules:")
     for student_id, enrolled_courses in timetable.student_enrollments.items():
@@ -203,8 +168,8 @@ if __name__ == "__main__":
                 day, time = time_slot.split()
                 rows.append((student_id, day, time, course_id, room))
 
-    with open("student_schedules.csv", "w", newline="") as file:
+    with open("result.GA.csv", "w", newline="") as file:
         writer = csv.writer(file)
         writer.writerows(rows)
 
-    print("\n📁 Student schedules exported to 'student_schedules.csv'")
+    print("\n📁 Student schedules exported to 'result_GA.csv'")

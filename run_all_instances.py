@@ -13,7 +13,7 @@ CONFIG = {
     "mutation_rate": 0.05,
     "crossover_rate": 0.8,
     "crossover_operator": "uniform",  # Options: 'uniform', 'ox', 'pmx'
-    "max_evaluations": 10000,
+    "max_evaluations": 500,
     "use_repair": False  # Set to True if using a repair function
 }
 
