@@ -157,6 +157,34 @@ if __name__ == "__main__":
     for course_id, assignment in best_schedule.items():
         print(f"{course_id}: {assignment['time_slot']}, {assignment['room_id']}")
 
+    # === JSON Export ===
+    # Save both readable and DTR formats for flexibility
+    readable_output = {
+        course_id: {
+            "time_slot": assignment["time_slot"],
+            "room_id": assignment["room_id"]
+        }
+        for course_id, assignment in best_schedule.items()
+    }
+
+    # Rebuild DTR map for reverse lookup
+    dtr_map, reverse_map = generate_dtr_codes()
+    dtr_output = {
+        course_id: reverse_map[
+            (assignment["time_slot"].split()[0], assignment["time_slot"].split()[1], assignment["room_id"])
+        ]
+        for course_id, assignment in best_schedule.items()
+    }
+
+    # Write to JSON files
+    with open("result.GA_readable.json", "w") as f:
+        json.dump(readable_output, f, indent=2)
+
+    with open("result.GA_dtr.json", "w") as f:
+        json.dump(dtr_output, f, indent=2)
+
+    print("\n📝 Best schedule exported to 'result.GA_readable.json' and 'result.GA_dtr.json'")
+
     # === CSV Export ===
     import csv
     rows = [("Student ID", "Day", "Time", "Course ID", "Room")]

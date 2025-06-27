@@ -1,74 +1,62 @@
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-from timetable_parser import TimetableData
 import json
+from timetable_parser import TimetableData
+from collections import defaultdict
+import pprint
 
-# Sample time order
-time_order = ["09:00", "10:00", "11:00", "13:00", "14:00"]
-day_order = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+# Load timetable input (for metadata)
+with open("files/instance_10_hard.json") as f:
+    timetable_data = json.load(f)
+timetable = TimetableData(timetable_data)
 
+# Load solution
+with open("result.GA_readable.json") as f:
+    solution = json.load(f)
 
-def parse_slot(slot):
-    day, time = slot.split()
-    return day, time
+# Helper: course -> time, room
+course_slots = {
+    course_id: (slot_info["time_slot"], slot_info["room_id"])
+    for course_id, slot_info in solution.items()
+}
 
+# === 1. Per Student Schedule ===
+student_view = defaultdict(list)
+for student_id, courses in timetable.student_enrollments.items():
+    for cid in courses:
+        if cid in course_slots:
+            time, room = course_slots[cid]
+            student_view[student_id].append((time, cid, room))
+    student_view[student_id].sort()
 
-def plot_timetable(solution, timetable: TimetableData, title="Timetable Visualization"):
-    fig, ax = plt.subplots(figsize=(12, 6))
+print("\n🧑 Per Student View:")
+for sid, entries in student_view.items():
+    print(f"\nStudent {sid}:")
+    for time, cid, room in entries:
+        print(f"  {time} - {cid} in {room}")
 
-    # Plot grid
-    ax.set_xticks(range(len(time_order)))
-    ax.set_xticklabels(time_order)
-    ax.set_yticks(range(len(day_order)))
-    ax.set_yticklabels(day_order)
-    ax.set_xlim(-0.5, len(time_order) - 0.5)
-    ax.set_ylim(-0.5, len(day_order) - 0.5)
-    ax.grid(True)
+# === 2. Per Lecturer View ===
+lecturer_view = defaultdict(list)
+for course in timetable.courses:
+    if course.id in course_slots:
+        time, room = course_slots[course.id]
+        lecturer_view[course.lecturer].append((time, course.id, room))
+for lec in lecturer_view:
+    lecturer_view[lec].sort()
 
-    colors = plt.cm.tab10.colors  # 10 unique colors
-    legend_items = {}
+print("\n🧑‍🏫 Per Lecturer View:")
+for lec, entries in lecturer_view.items():
+    print(f"\nLecturer {lec}:")
+    for time, cid, room in entries:
+        print(f"  {time} - {cid} in {room}")
 
-    for i, (course_id, assignment) in enumerate(solution.items()):
-        day, time = parse_slot(assignment["time_slot"])
-        if day not in day_order or time not in time_order:
-            continue
-        y = day_order.index(day)
-        x = time_order.index(time)
-        lecturer = timetable.get_course_by_id(course_id).lecturer
-        label = f"{course_id} ({assignment['room_id']})"
+# === 3. Per Room View ===
+room_view = defaultdict(list)
+for cid, (time, room) in course_slots.items():
+    room_view[room].append((time, cid))
+for r in room_view:
+    room_view[r].sort()
 
-        color_index = hash(lecturer) % len(colors)
-        color = colors[color_index]
-        ax.add_patch(mpatches.Rectangle((x - 0.4, y - 0.4), 0.8, 0.8, color=color, alpha=0.7))
-        ax.text(x, y, label, ha='center', va='center', fontsize=8, color='black')
-
-        if lecturer not in legend_items:
-            legend_items[lecturer] = mpatches.Patch(color=color, label=lecturer)
-
-    plt.title(title)
-    plt.legend(handles=list(legend_items.values()), bbox_to_anchor=(1.05, 1), loc='upper left')
-    plt.tight_layout()
-    plt.show()
-
-
-# === Example usage ===
-if __name__ == "__main__":
-    with open("files/instance_10_hard.json") as f:
-        data = json.load(f)
-    timetable = TimetableData(data)
-
-    # Sample solution with "Monday 09:00" format
-    solution = {
-        "C1": {"time_slot": "Monday 09:00", "room_id": "R5"},
-        "C2": {"time_slot": "Monday 10:00", "room_id": "R5"},
-        "C3": {"time_slot": "Monday 11:00", "room_id": "R5"},
-        "C4": {"time_slot": "Tuesday 09:00", "room_id": "R2"},
-        "C5": {"time_slot": "Tuesday 10:00", "room_id": "R2"},
-        "C6": {"time_slot": "Tuesday 11:00", "room_id": "R4"},
-        "C7": {"time_slot": "Wednesday 09:00", "room_id": "R2"},
-        "C8": {"time_slot": "Wednesday 10:00", "room_id": "R1"},
-        "C9": {"time_slot": "Thursday 09:00", "room_id": "R2"},
-        "C10": {"time_slot": "Thursday 10:00", "room_id": "R3"}
-    }
-
-    plot_timetable(solution, timetable)
+print("\n🏫 Per Room View:")
+for room, entries in room_view.items():
+    print(f"\nRoom {room}:")
+    for time, cid in entries:
+        print(f"  {time} - {cid}")
