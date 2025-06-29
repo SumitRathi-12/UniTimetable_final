@@ -29,7 +29,7 @@ print(pivot.fillna("-"))
 
 # === Optional: Heatmap-style plot (rooms per time/day) ===
 plt.figure(figsize=(15, 8))
-sns.heatmap(pivot.notnull(), cmap="Greens", cbar=False, linewidths=.5, linecolor='gray', annot=pivot.fillna(""), fmt="", annot_kws={"size": 8})
+sns.heatmap(pivot.notnull(), cmap="Purples", cbar=False, linewidths=.5, linecolor='gray', annot=pivot.fillna(""), fmt="", annot_kws={"size": 8})
 plt.title("Room Usage Timetable (Course IDs)", fontsize=14)
 plt.xlabel("Day / Room")
 plt.ylabel("Time")
