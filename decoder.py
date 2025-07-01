@@ -23,5 +23,5 @@ def decode_dtr(dtr_code: str) -> str:
         return "Invalid DTR code"
 
 # Example usage
-for i in [1, 2, 55, 56, 110, 275]:
+for i in [4, 2, 55, 56, 110, 275]:
     print(f"DTR{i} ➜ {decode_dtr(f'DTR{i}')}")

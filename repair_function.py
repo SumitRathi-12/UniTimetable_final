@@ -6,7 +6,6 @@ from typing import Dict, Tuple, List, Set, Optional
 from timetable_parser import TimetableData, Course, Room
 from genetic_algorithm import genetic_algorithm  # ✅ Make sure this version only has uniform and single_point crossover
 
-
 def generate_dtr_codes(timetable_data: TimetableData):
     days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
     start_time = datetime.strptime("08:00", "%H:%M")
@@ -26,7 +25,6 @@ def generate_dtr_codes(timetable_data: TimetableData):
                 index += 1
 
     return dtr_map, reverse_map
-
 
 def repair_individual_advanced(individual, timetable_data, dtr_map, reverse_dtr_map, max_evaluations=5000):
     repaired_individual = individual.copy()
@@ -173,7 +171,6 @@ def repair_individual_advanced(individual, timetable_data, dtr_map, reverse_dtr_
 
     return repaired_individual
 
-
 if __name__ == "__main__":
     with open("files/instance_10_hard.json") as f:
         data = json.load(f)
@@ -183,28 +180,25 @@ if __name__ == "__main__":
 
     print("\n🚀 Running Genetic Algorithm with Repair Function...\n")
 
-    # Run the GA with selected crossover operator
     best_solution = genetic_algorithm(
         timetable,
         max_evaluations=10000,
-        pop_size=50,
+        pop_size=30,
         mutation_rate=0.01,
-        crossover_rate=0.7,
-        crossover_operator="uniform",  # ✅ Only "uniform" or "single_point" supported
+        crossover_rate=0.6,
+        crossover_operator="single_point",
         use_repair=True,
         dtr_map=dtr_map,
         reverse_dtr_map=reverse_dtr_map,
         repair_fn=repair_individual_advanced
     )
 
-    # Display best schedule
     print("\n✅ Best Schedule:")
     for course_id, assignment in best_solution.items():
         day, time = assignment['time_slot'].split()
         room = assignment['room_id']
         print(f"{course_id}: {day} {time} in {room}")
 
-    # Export to CSV
     import csv
     with open("result_GADK.csv", "w", newline="") as file:
         writer = csv.writer(file)
@@ -218,3 +212,27 @@ if __name__ == "__main__":
                     writer.writerow([student_id, day, time, cid, room])
 
     print("\n📄 Exported schedule to 'result_GADK.csv'")
+
+    # Write readable and DTR-based JSON results
+    readable_output = {
+        cid: {
+            "course": cid,
+            "day": assignment["time_slot"].split()[0],
+            "time": assignment["time_slot"].split()[1],
+            "room": assignment["room_id"]
+        } for cid, assignment in best_solution.items()
+    }
+
+    dtr_output = {
+        cid: {
+            "dtr_code": reverse_dtr_map.get((assignment["time_slot"].split()[0], assignment["time_slot"].split()[1], assignment["room_id"]))
+        } for cid, assignment in best_solution.items()
+    }
+
+    with open("results/dkga/result.GAdk_readable_instance_10_hard.json", "w") as f:
+        json.dump(readable_output, f, indent=2)
+
+    with open("results/dkga/result.GAdk_dtr_instance_10_hard.json", "w") as f:
+        json.dump(dtr_output, f, indent=2)
+
+    print("\n📝 Best schedule exported to 'result.GA_readable.json' and 'result.GA_dtr.json'")
