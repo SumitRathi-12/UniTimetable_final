@@ -1,0 +1,92 @@
+{
+  "C1": {
+    "course": "C1",
+    "day": "Wednesday",
+    "time": "10:00",
+    "room": "R1"
+  },
+  "C10": {
+    "course": "C10",
+    "day": "Tuesday",
+    "time": "13:00",
+    "room": "R5"
+  },
+  "C11": {
+    "course": "C11",
+    "day": "Thursday",
+    "time": "15:00",
+    "room": "R3"
+  },
+  "C12": {
+    "course": "C12",
+    "day": "Thursday",
+    "time": "16:00",
+    "room": "R5"
+  },
+  "C13": {
+    "course": "C13",
+    "day": "Wednesday",
+    "time": "11:00",
+    "room": "R2"
+  },
+  "C14": {
+    "course": "C14",
+    "day": "Tuesday",
+    "time": "14:00",
+    "room": "R5"
+  },
+  "C15": {
+    "course": "C15",
+    "day": "Friday",
+    "time": "16:00",
+    "room": "R2"
+  },
+  "C2": {
+    "course": "C2",
+    "day": "Tuesday",
+    "time": "12:00",
+    "room": "R2"
+  },
+  "C3": {
+    "course": "C3",
+    "day": "Friday",
+    "time": "15:00",
+    "room": "R1"
+  },
+  "C4": {
+    "course": "C4",
+    "day": "Friday",
+    "time": "17:00",
+    "room": "R5"
+  },
+  "C5": {
+    "course": "C5",
+    "day": "Monday",
+    "time": "11:00",
+    "room": "R3"
+  },
+  "C6": {
+    "course": "C6",
+    "day": "Monday",
+    "time": "10:00",
+    "room": "R1"
+  },
+  "C7": {
+    "course": "C7",
+    "day": "Monday",
+    "time": "09:00",
+    "room": "R5"
+  },
+  "C8": {
+    "course": "C8",
+    "day": "Thursday",
+    "time": "17:00",
+    "room": "R4"
+  },
+  "C9": {
+    "course": "C9",
+    "day": "Wednesday",
+    "time": "12:00",
+    "room": "R3"
+  }
+}

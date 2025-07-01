@@ -128,17 +128,17 @@ def genetic_algorithm(timetable, max_evaluations=5000, pop_size=50, mutation_rat
 
 # === Main Test Runner ===
 if __name__ == "__main__":
-    with open("files/instance_1_easy.json") as f:
+    with open("files/instance_10_hard.json") as f:
         data = json.load(f)
 
     timetable = TimetableData(data)
     best_schedule = genetic_algorithm(
         timetable,
-        max_evaluations=10000,
-        pop_size=30,
+        max_evaluations=5000,
+        pop_size=50,
         mutation_rate=0.01,
-        crossover_rate=0.6,
-        crossover_operator="single_point"  # Change to "single_point" to test single-point crossover
+        crossover_rate=0.8,
+        crossover_operator="uniform"  # Change to "single_point" to test single-point crossover
     )
 
     print("\nStudent schedules:")
@@ -177,10 +177,10 @@ if __name__ == "__main__":
     }
 
     # Write to JSON files
-    with open("results/sga/result.GA_readable_instance_1_easy.json", "w") as f:
+    with open("result.GA_readable.json", "w") as f:
         json.dump(readable_output, f, indent=2)
 
-    with open("results/sga/result.GA_dtr_instance_1_easy.json", "w") as f:
+    with open("result.GA_dtr.json", "w") as f:
         json.dump(dtr_output, f, indent=2)
 
     print("\n📝 Best schedule exported to 'result.GA_readable.json' and 'result.GA_dtr.json'")

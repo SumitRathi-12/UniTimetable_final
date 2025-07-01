@@ -1,0 +1,47 @@
+{
+  "C1": {
+    "dtr_code": "DTR25"
+  },
+  "C10": {
+    "dtr_code": "DTR237"
+  },
+  "C11": {
+    "dtr_code": "DTR151"
+  },
+  "C12": {
+    "dtr_code": "DTR262"
+  },
+  "C13": {
+    "dtr_code": "DTR81"
+  },
+  "C14": {
+    "dtr_code": "DTR238"
+  },
+  "C15": {
+    "dtr_code": "DTR108"
+  },
+  "C2": {
+    "dtr_code": "DTR71"
+  },
+  "C3": {
+    "dtr_code": "DTR52"
+  },
+  "C4": {
+    "dtr_code": "DTR274"
+  },
+  "C5": {
+    "dtr_code": "DTR114"
+  },
+  "C6": {
+    "dtr_code": "DTR3"
+  },
+  "C7": {
+    "dtr_code": "DTR222"
+  },
+  "C8": {
+    "dtr_code": "DTR208"
+  },
+  "C9": {
+    "dtr_code": "DTR137"
+  }
+}

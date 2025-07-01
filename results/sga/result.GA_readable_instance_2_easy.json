@@ -1,0 +1,42 @@
+{
+  "C1": {
+    "time_slot": "Monday 14:00",
+    "room_id": "R1"
+  },
+  "C10": {
+    "time_slot": "Wednesday 16:00",
+    "room_id": "R1"
+  },
+  "C2": {
+    "time_slot": "Thursday 16:00",
+    "room_id": "R5"
+  },
+  "C3": {
+    "time_slot": "Tuesday 15:00",
+    "room_id": "R4"
+  },
+  "C4": {
+    "time_slot": "Tuesday 16:00",
+    "room_id": "R5"
+  },
+  "C5": {
+    "time_slot": "Monday 13:00",
+    "room_id": "R1"
+  },
+  "C6": {
+    "time_slot": "Friday 15:00",
+    "room_id": "R4"
+  },
+  "C7": {
+    "time_slot": "Wednesday 15:00",
+    "room_id": "R5"
+  },
+  "C8": {
+    "time_slot": "Thursday 15:00",
+    "room_id": "R2"
+  },
+  "C9": {
+    "time_slot": "Friday 16:00",
+    "room_id": "R3"
+  }
+}

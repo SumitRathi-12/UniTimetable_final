@@ -1,0 +1,32 @@
+{
+  "C1": {
+    "dtr_code": "DTR129"
+  },
+  "C10": {
+    "dtr_code": "DTR117"
+  },
+  "C2": {
+    "dtr_code": "DTR183"
+  },
+  "C3": {
+    "dtr_code": "DTR135"
+  },
+  "C4": {
+    "dtr_code": "DTR92"
+  },
+  "C5": {
+    "dtr_code": "DTR271"
+  },
+  "C6": {
+    "dtr_code": "DTR118"
+  },
+  "C7": {
+    "dtr_code": "DTR258"
+  },
+  "C8": {
+    "dtr_code": "DTR162"
+  },
+  "C9": {
+    "dtr_code": "DTR194"
+  }
+}

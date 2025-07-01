@@ -1,0 +1,62 @@
+{
+  "C1": {
+    "course": "C1",
+    "day": "Wednesday",
+    "time": "14:00",
+    "room": "R2"
+  },
+  "C10": {
+    "course": "C10",
+    "day": "Thursday",
+    "time": "13:00",
+    "room": "R5"
+  },
+  "C2": {
+    "course": "C2",
+    "day": "Friday",
+    "time": "13:00",
+    "room": "R3"
+  },
+  "C3": {
+    "course": "C3",
+    "day": "Monday",
+    "time": "14:00",
+    "room": "R5"
+  },
+  "C4": {
+    "course": "C4",
+    "day": "Tuesday",
+    "time": "16:00",
+    "room": "R4"
+  },
+  "C5": {
+    "course": "C5",
+    "day": "Friday",
+    "time": "12:00",
+    "room": "R4"
+  },
+  "C6": {
+    "course": "C6",
+    "day": "Tuesday",
+    "time": "15:00",
+    "room": "R5"
+  },
+  "C7": {
+    "course": "C7",
+    "day": "Wednesday",
+    "time": "12:00",
+    "room": "R4"
+  },
+  "C8": {
+    "course": "C8",
+    "day": "Wednesday",
+    "time": "13:00",
+    "room": "R1"
+  },
+  "C9": {
+    "course": "C9",
+    "day": "Monday",
+    "time": "13:00",
+    "room": "R4"
+  }
+}

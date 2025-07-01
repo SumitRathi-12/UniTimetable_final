@@ -14,7 +14,7 @@ instances = {
     "hard": "files/instance_10_hard.json"
 }
 
-# Define parameter sets from your provided table
+# Define parameter sets
 population_sizes = [30, 50, 100]
 mutation_rates = [0.01, 0.05, 0.10]
 crossover_rates = [0.6, 0.8, 0.95]
@@ -22,10 +22,16 @@ max_evaluations_list = [500]
 crossover_operators = ['uniform', 'single_point']
 
 # Prepare combinations of parameters
-parameter_combinations = list(itertools.product(population_sizes, mutation_rates, max_evaluations_list, crossover_operators))
+parameter_combinations = list(itertools.product(
+    population_sizes,
+    mutation_rates,
+    crossover_rates,
+    max_evaluations_list,
+    crossover_operators
+))
 
 # Store results
-results = [("Instance", "Pop Size", "Mutation Rate", "Max Evaluations", "Crossover Operator", "Best Fitness", "Time (s)")]
+results = [("Instance", "Pop Size", "Mutation Rate", "Crossover Rate", "Max Evaluations", "Crossover Operator", "Best Fitness", "Time (s)")]
 
 # Experiment
 for instance_name, instance_path in instances.items():
@@ -36,9 +42,10 @@ for instance_name, instance_path in instances.items():
     dtr_map, reverse_dtr_map = generate_dtr_codes(timetable)
 
     for params in parameter_combinations:
-        pop_size, mutation_rate, max_evaluations, crossover_op = params
+        pop_size, mutation_rate, crossover_rate, max_evaluations, crossover_op = params
 
-        print(f"\n🔁 Instance: {instance_name}, PopSize: {pop_size}, Mutation: {mutation_rate}, MaxEvaluations: {max_evaluations}, Crossover: {crossover_op}")
+        print(f"\n🔁 Instance: {instance_name}, PopSize: {pop_size}, Mutation: {mutation_rate}, "
+              f"Crossover: {crossover_rate}, MaxEvaluations: {max_evaluations}, CrossoverOp: {crossover_op}")
 
         start_time = time.time()
 
@@ -47,7 +54,7 @@ for instance_name, instance_path in instances.items():
             max_evaluations=max_evaluations,
             pop_size=pop_size,
             mutation_rate=mutation_rate,
-            crossover_rate=0.7,  # Default crossover rate (can be parameterized if needed)
+            crossover_rate=crossover_rate,
             crossover_operator=crossover_op,
             use_repair=True,
             dtr_map=dtr_map,
@@ -63,6 +70,7 @@ for instance_name, instance_path in instances.items():
             instance_name,
             pop_size,
             mutation_rate,
+            crossover_rate,
             max_evaluations,
             crossover_op,
             fitness,
